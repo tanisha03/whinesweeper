@@ -99,6 +99,10 @@ export default function Grid() {
   };
 
   useEffect(() => {
+    (gamesPlayed === 0) && openHelpModal();
+  }, []);
+
+  useEffect(() => {
     //stop
     if(seconds === 40) {
       endGame('ended', 'Time\'s up!🕣');
