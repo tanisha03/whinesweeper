@@ -72,7 +72,6 @@ export default function Tile(props) {
   };
 
   const getTileStyle = tile => {
-    debugger
     if (tile.exploded)
       return {...revealedTileButton, backgroundColor: 'red'};
     else if (tile.status === 'flagged')

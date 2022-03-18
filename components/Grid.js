@@ -1,10 +1,42 @@
 import React, {useState, useEffect} from 'react';
 import Tile from './Tile';
 import styles from '../styles/Home.module.css'
+import Modal from 'react-modal';
+import toast, { Toaster } from 'react-hot-toast';
+
+const customStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.8)'
+  },
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    width: '400px'
+  },
+};
+
+const numberMapper = {
+  0: '⬜️',
+  1: '1️⃣',
+  2: '2️⃣',
+  3: '3️⃣',
+  4: '4️⃣',
+  5: '5️⃣',
+  6: '6️⃣',
+  7: '7️⃣',
+  8: '8️⃣',
+};
+
+Modal.setAppElement('#ModalPlaceholder');
 
 const gameSettings = {
-    rows: 12,
-    columns: 7,
+    rows: 11,
+    columns: 8,
     mines: 12,
 };
 
@@ -35,14 +67,41 @@ export default function Grid() {
   const [statusMessage, setStatusMessage] = useState('');
   const [minesClicked, setMinesClicked] = useState(0);
   const [score, setScore] = useState(0);
+  const [helpModalIsOpen, setHelpModalIsOpen] = React.useState(false);
+  const [resultModallIsOpen, setResultModallIsOpen] = React.useState(false);
+  const gamesPlayed = (typeof window !== 'undefined') ? +localStorage.getItem('games') : 0;
+  const highestScore = (typeof window !== 'undefined') ? +localStorage.getItem('score') : 0;
+
+  const openHelpModal = () => {
+    setHelpModalIsOpen(true);
+  }
+
+  const closeHelpModal = () => {
+    setHelpModalIsOpen(false);
+  }
+
+  const openResultModal = () => {
+    setResultModallIsOpen(true);
+  }
+
+  const closeResultModal = () => {
+    setResultModallIsOpen(false);
+  }
+
+  const endGame = (state, statusMsg) => {
+      showAllMines(grid);
+      setGameState(state);
+      clearInterval(clock);
+      setStatusMessage(statusMsg);
+      openResultModal();
+      localStorage.setItem('games', gamesPlayed+1);
+      localStorage.setItem('score', score>highestScore ? score : highestScore);
+  };
 
   useEffect(() => {
     //stop
     if(seconds === 40) {
-      showAllMines(grid);
-      setGameState('ended');
-      clearInterval(clock);
-      setStatusMessage('Too bad! You lost! 😢');
+      endGame('ended', 'Time\'s up!🕣');
     }
   }, [seconds, clock, grid]);
   
@@ -141,13 +200,10 @@ export default function Grid() {
 
       if (tile.mined) {
         tile.exploded = true;
-        if(minesClicked === 3) {
-          showAllMines(newGrid);
-          setGameState('lost');
-          clearInterval(clock);
-          setStatusMessage('Too bad! You lost! 😢');
+        if(minesClicked === 5) {
+          endGame('lost', 'Too bad! You lost! 😢');
         }
-        setScore(prevState => prevState>5 ? prevState - 3 : 0);
+        setScore(prevState => prevState>10 ? prevState - 10 : 0);
         setMinesClicked(prevState => prevState + 1);
       }
       else {
@@ -202,18 +258,42 @@ export default function Grid() {
     }
   };
 
+  const shareResults = () => {
+    let gameGrid = ``;
+    grid.forEach(gridRow => {
+      let row = ``;
+      gridRow.forEach(col => {
+        if(col.status === 'hidden') row+='🟧';
+        else if(col.status === 'flagged' && col.mined) row+='🚩';
+        else if(col.status === 'flagged' && !col.mined) row+='❌';
+        else if(col.mined) row+='💣';
+        else row+=numberMapper[col.adjacentMines];
+      })
+      gameGrid+=row+'\n';
+    });
+    let message = `WhineSweeper #${gamesPlayed+1}\n${gameGrid}`;
+    navigator.clipboard.writeText(message);
+    toast('Copied to clipboard.');
+  }
+
   return (
     <>
-        <div className={styles.header}>
-          hello
+        <div style={{background: '#C0C0C0', padding: '4px'}}>
+          <Toaster />
+          <div className={styles.header}>
+            💣 Whinesweeper
+          </div>
+          <div style={{padding: '8px'}}>
+            <button className={styles.actionButtons} style={{marginRight: '12px'}} onClick={handleStartGame}>New Game</button>
+            <button className={styles.actionButtons} onClick={openHelpModal}>Help</button>
+          </div>
         </div>
         <div className={styles.headerOuter}>
           <div className={styles.headerInner}>
-            <button className={styles.button} onClick={handleStartGame}>Reset</button>
+            <div className={styles.timer}>{("00" + score).slice(-3)}</div>
             <div className={styles.timer}>00 : {40 - seconds}</div>
           </div>
         </div>
-        <div>{score}</div>
         <table className={styles.table}>
           <tbody>
             {
@@ -233,6 +313,45 @@ export default function Grid() {
             }
           </tbody>
         </table>
+        <Modal
+          isOpen={helpModalIsOpen}
+          onRequestClose={closeHelpModal}
+          style={customStyles}
+          contentLabel="Help Modal"
+        >
+          <button className={styles.close} onClick={closeHelpModal}>X</button>
+          <p>This is a minesweeper you cannot loose!</p>
+          <p>Rules are simple. Keep mining for 40 sec & collect points. Every bomb mined leads to a -10. If you explode more than six mines out of total 12, then I guess this game is not for you!</p>
+          <h2>Controls</h2>
+          <ul style={{padding: '0 1rem'}}>
+            <li>Click or press to reveal the block</li>
+            <li>Long press or right click to flag the block</li>
+          </ul>
+          <h3>Stop whining, start playing!</h3>
+        </Modal>
+        <Modal
+          isOpen={resultModallIsOpen}
+          onRequestClose={closeResultModal}
+          style={customStyles}
+          contentLabel="Results Modal"
+        >
+          <center>
+            <button className={styles.close} onClick={closeResultModal}>X</button>
+            <p>{statusMessage}</p>
+            <h2 style={{color: '#0070f3'}}>Score: {score}</h2>
+            <div style={{display: 'flex', justifyContent: 'space-around', margin: '2rem 0'}}>
+              <div>
+                <h3 style={{margin: 0}}>{gamesPlayed+1}</h3>
+                <p style={{margin: '0.4rem'}}>Games Played</p>
+              </div>
+              <div>
+                <h3 style={{margin: 0}}>{score>highestScore ? score : highestScore}</h3>
+                <p style={{margin: '0.4rem'}}>Highest Score</p>
+              </div>
+            </div>
+            <button className={styles.shareButton} onClick={shareResults}>Share</button>
+          </center>
+        </Modal>
     </>
   )
 }

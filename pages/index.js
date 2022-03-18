@@ -12,14 +12,6 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="#">Whinesweeper!</a>
-        </h1>
-
-        <p className={styles.description}>
-          How fast can you sweep?
-        </p>
-
         <div>
           <Grid />
         </div>
@@ -27,11 +19,11 @@ export default function Home() {
 
       <footer className={styles.footer}>
         <a
-          href="#"
+          href="https://twitter.com/tanishaaa03"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Made by @tanishaaa03
+          A useless game by <span style={{color: '#83A8CB'}}>{'  @tanishaaa03'}</span>
         </a>
       </footer>
     </div>
