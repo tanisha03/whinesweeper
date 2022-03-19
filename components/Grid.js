@@ -324,7 +324,7 @@ export default function Grid() {
           contentLabel="Help Modal"
         >
           <button className={styles.close} onClick={closeHelpModal}>X</button>
-          <p>This is a minesweeper that doesn't make you whine!</p>
+          <p>This is a minesweeper that does not make you whine!</p>
           <p>Rules are simple. Keep mining for 40 sec & collect points. Every bomb mined leads to a -10. If you explode more than six mines out of total 12, then I guess this game is not for you!</p>
           <h2>Controls</h2>
           <ul style={{padding: '0 1rem'}}>
