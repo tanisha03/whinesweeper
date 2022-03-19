@@ -2,8 +2,8 @@ import React, {useState} from 'react'
 import styles from '../styles/Home.module.css'
 
 const tileButtonStyles = {
-  minWidth: '42px',
-  minHeight: '42px',
+  minWidth: '36px',
+  minHeight: '36px',
   padding: 0,
   margin: 0,
   fontSize: '14px',
@@ -16,8 +16,8 @@ const tileButtonStyles = {
 }
 
 const revealedTileButton = {
-  minWidth: '42px',
-  minHeight: '42px',
+  minWidth: '36px',
+  minHeight: '36px',
   padding: 0,
   margin: 0,
   fontSize: '14px',

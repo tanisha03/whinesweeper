@@ -35,7 +35,7 @@ const numberMapper = {
 Modal.setAppElement('#ModalPlaceholder');
 
 const gameSettings = {
-    rows: 11,
+    rows: 12,
     columns: 8,
     mines: 12,
 };
@@ -275,7 +275,7 @@ export default function Grid() {
       })
       gameGrid+=row+'\n';
     });
-    let message = `WhineSweeper #${gamesPlayed+1}\n${gameGrid}`;
+    let message = `Whinesweeper #${gamesPlayed+1} - ${score}\n${gameGrid}`;
     navigator.clipboard.writeText(message);
     toast('Copied to clipboard.');
   }
