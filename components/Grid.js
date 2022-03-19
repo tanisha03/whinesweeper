@@ -275,7 +275,7 @@ export default function Grid() {
       })
       gameGrid+=row+'\n';
     });
-    let message = `Whinesweeper #${gamesPlayed+1} - ${score}\n${gameGrid}`;
+    let message = `Whinesweeper #${gamesPlayed+1} - ${score}\n\n${gameGrid}`;
     navigator.clipboard.writeText(message);
     toast('Copied to clipboard.');
   }
