@@ -23,7 +23,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          A useless game by <span style={{color: '#83A8CB'}}>{'  @tanishaaa03'}</span>
+          A useless game by &nbsp;<span style={{color: '#83A8CB'}}>{'@tanishaaa03'}</span>
         </a>
       </footer>
     </div>
