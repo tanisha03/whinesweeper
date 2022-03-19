@@ -6,7 +6,7 @@ class MyDocument extends Document {
       <Html>
         <Head>
             <link href='https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap' rel='stylesheet'/>
-            <link href="http://fonts.cdnfonts.com/css/digital-dismay" rel="stylesheet"></link>
+            <link href="https://fonts.cdnfonts.com/css/digital-dismay" rel="stylesheet"></link>
             <script 
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
