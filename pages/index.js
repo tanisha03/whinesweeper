@@ -7,7 +7,7 @@ export default function Home() {
     <div className={styles.container}>
       <Head>
         <title>Whinesweeper</title>
-        <meta name="description" content="A minesweeper that doesn't make you wine" />
+        <meta name="description" content="A minesweeper that doesn't make you whine" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
