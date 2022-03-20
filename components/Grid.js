@@ -96,6 +96,7 @@ export default function Grid() {
       openResultModal();
       localStorage.setItem('games', gamesPlayed+1);
       localStorage.setItem('score', score>highestScore ? score : highestScore);
+      console.log(grid);
   };
 
   useEffect(() => {
@@ -212,12 +213,13 @@ export default function Grid() {
       }
       else {
         setScore(prevState => prevState + tile.adjacentMines);
-        if (checkIfWon(newGrid) === true) {
-          setGameState('won');
-          clearInterval(clock);
-          setStatusMessage('Congratulations! You won! 🎉');
-        }
-        else if (tile.adjacentMines === 0) { // clear tiles around
+        // if (checkIfWon(newGrid) === true) {
+        //   setGameState('won');
+        //   clearInterval(clock);
+        //   setStatusMessage('Congratulations! You won! 🎉');
+        // }
+        // else 
+        if (tile.adjacentMines === 0) { // clear tiles around
           clearAdjacentTilesAt(x, y, newGrid);
         }
       }
@@ -267,7 +269,8 @@ export default function Grid() {
     grid.forEach(gridRow => {
       let row = ``;
       gridRow.forEach(col => {
-        if(col.status === 'hidden') row+='🟧';
+        if(col.exploded) row+='🟥';
+        else if(col.status === 'hidden') row+='🟧';
         else if(col.status === 'flagged' && col.mined) row+='🚩';
         else if(col.status === 'flagged' && !col.mined) row+='❌';
         else if(col.mined) row+='💣';
