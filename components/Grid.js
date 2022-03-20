@@ -130,14 +130,15 @@ export default function Grid() {
 
   const checkIfWon = newGrid => {
     let hiddenTiles = 0;
+    console.log(grid);
     for (let i = 0; i < gameSettings.rows; i++) {
       for (let j = 0; j < gameSettings.columns; j++) {
         const tile = newGrid[i][j];
-        if (tile.status === 'hidden' || tile.status === 'flagged')
+        if (tile.status === 'shown' || tile.status === 'flagged')
           hiddenTiles++;
       }
     }
-    return hiddenTiles === gameSettings.mines;
+    return hiddenTiles === (gameSettings.rows*gameSettings.columns);
   };
   
   const handleStartGame = () => {
@@ -213,13 +214,11 @@ export default function Grid() {
       }
       else {
         setScore(prevState => prevState + tile.adjacentMines);
-        // if (checkIfWon(newGrid) === true) {
-        //   setGameState('won');
-        //   clearInterval(clock);
-        //   setStatusMessage('Congratulations! You won! 🎉');
-        // }
-        // else 
-        if (tile.adjacentMines === 0) { // clear tiles around
+        if (checkIfWon(newGrid) === true) {
+          setScore(prevState => prevState + (40-seconds)*2);
+          endGame('won', 'Damn! You are fast 💨');
+        }
+        else if (tile.adjacentMines === 0) { // clear tiles around
           clearAdjacentTilesAt(x, y, newGrid);
         }
       }
