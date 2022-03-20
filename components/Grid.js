@@ -219,7 +219,7 @@ export default function Grid() {
           endGame('won', 'Damn! You are fast 💨');
         }
         else if (tile.adjacentMines === 0) { // clear tiles around
-          clearAdjacentTilesAt(x, y, newGrid);gi
+          clearAdjacentTilesAt(x, y, newGrid);
         }
       }
     }
