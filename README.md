@@ -10,3 +10,5 @@ Rules are simple. Keep mining for 40 sec & collect points. Every bomb mined lead
 ### Stop whining, start playing!
 
 Want to waste time? Play [whinesweeper](http://whinesweeper.com)
+
+🚨 WhineSweeper got 1000 new users in just 2 days: [Twitter link](https://twitter.com/tanishaaa03/status/1505453177982058499?s=20&t=fuuAURjwxxoPOluIdnrb_Q)
