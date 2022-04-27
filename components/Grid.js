@@ -259,7 +259,6 @@ export default function Grid() {
       );
   
       setGrid(newGrid);
-    //   setFlagsUsed(flagsUsed + ((oldTile.status === 'hidden') ? 1 : -1));
     }
   };
 

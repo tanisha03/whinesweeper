@@ -44,7 +44,7 @@ export default function Tile(props) {
             <rect x="2" y="2" width="4" height="6" fill="#FC0D1B"/>
             <rect y="4" width="2" height="2" fill="#FC0D1B"/>
           </svg>
-        );
+        ); //flag svg
     }
     else if (tile.status === 'shown') {
       if (tile.mined)
@@ -61,7 +61,7 @@ export default function Tile(props) {
             <rect x="4" y="20" width="2" height="2" fill="black"/>
             <rect x="8" y="8" width="4" height="4" fill="white"/>
           </svg>
-        );
+        ); //bomb svg
       else
         return tile.adjacentMines ? tile.adjacentMines : '';
     }
